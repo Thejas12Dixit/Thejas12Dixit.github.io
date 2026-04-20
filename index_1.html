@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thejas Dixit Sathyanarayana — Robotics &amp; Automation Engineer</title>
+  <meta name="description" content="Portfolio of Thejas Dixit Sathyanarayana — Robotics and Automation Engineer based in Straubing, Germany. Robot simulation, offline programming, and virtual commissioning across KUKA, ABB, FANUC, and UR platforms." />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F5F1EA'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23B8471F' stroke-width='1.5'/%3E%3Cpath d='M16 2v8M16 22v8M2 16h8M22 16h8' stroke='%23141414' stroke-width='1.2'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #F5F1EA;
+      --bg-panel: #EDE8DE;
+      --ink: #141414;
+      --ink-soft: #2B2B2B;
+      --muted: #6B6B6B;
+      --line: #D8D3C7;
+      --line-strong: #B8B1A0;
+      --accent: #B8471F;
+      --f-display: "Instrument Serif", "Times New Roman", serif;
+      --f-body: "Work Sans", system-ui, sans-serif;
+      --f-mono: "JetBrains Mono", ui-monospace, monospace;
+      --maxw: 1180px;
+      --pad-x: clamp(20px, 4vw, 48px);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--f-body);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--accent); color: var(--bg); }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(20,20,20,0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(20,20,20,0.035) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.5), transparent 75%);
+    }
+    main, header, footer { position: relative; z-index: 1; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad-x); }
+
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(10px) saturate(1.1);
+      -webkit-backdrop-filter: blur(10px) saturate(1.1);
+      background: rgba(245, 241, 234, 0.75);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s var(--ease);
+    }
+    .nav.scrolled { border-bottom-color: var(--line); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 13px; letter-spacing: 0.02em; }
+    .brand-mark {
+      width: 10px; height: 10px;
+      border: 1.5px solid var(--ink);
+      border-radius: 50%;
+      position: relative;
+    }
+    .brand-mark::after {
+      content: "";
+      position: absolute; inset: 2px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.35; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; letter-spacing: 0.01em;
+      color: var(--ink-soft);
+      position: relative; padding: 4px 0;
+      transition: color 0.2s var(--ease);
+    }
+    .nav-links a::after {
+      content: ""; position: absolute;
+      left: 0; bottom: 0; height: 1px; width: 100%;
+      background: var(--accent);
+      transform: scaleX(0); transform-origin: right;
+      transition: transform 0.35s var(--ease);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .nav-cta {
+      font-family: var(--f-mono); font-size: 12px;
+      border: 1px solid var(--ink);
+      padding: 8px 14px; border-radius: 999px;
+      transition: all 0.25s var(--ease);
+    }
+    .nav-cta:hover { background: var(--ink); color: var(--bg); }
+    @media (max-width: 720px) { .nav-links { display: none; } }
+
+    section {
+      padding: clamp(80px, 10vw, 140px) 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-label {
+      font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 36px;
+    }
+    .section-label::before { content: ""; width: 20px; height: 1px; background: var(--ink); }
+    h2 {
+      font-family: var(--f-display); font-weight: 400;
+      font-size: clamp(36px, 5.5vw, 64px);
+      line-height: 1.02; letter-spacing: -0.015em;
+      max-width: 900px; margin-bottom: 56px;
+    }
+    h2 em { font-style: italic; color: var(--accent); }
+
+    /* Hero */
+    .hero {
+      padding-top: clamp(80px, 12vw, 140px);
+      padding-bottom: clamp(80px, 10vw, 120px);
+      border-top: none; position: relative;
+    }
+    .hero-meta {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-family: var(--f-mono); font-size: 12px;
+      color: var(--muted); letter-spacing: 0.04em;
+      margin-bottom: 48px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap; gap: 12px;
+    }
+    .status { display: inline-flex; align-items: center; gap: 8px; }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #2E9B3F;
+      box-shadow: 0 0 0 0 rgba(46, 155, 63, 0.5);
+      animation: status-pulse 2s infinite;
+    }
+    @keyframes status-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(46, 155, 63, 0.5); }
+      70% { box-shadow: 0 0 0 10px rgba(46, 155, 63, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(46, 155, 63, 0); }
+    }
+    .hero h1 {
+      font-family: var(--f-display); font-weight: 400;
+      font-size: clamp(48px, 9.5vw, 128px);
+      line-height: 0.95; letter-spacing: -0.025em;
+      color: var(--ink); margin-bottom: 40px;
+    }
+    .hero h1 .italic { font-style: italic; color: var(--accent); }
+    .hero-lede {
+      max-width: 640px;
+      font-size: clamp(17px, 1.6vw, 20px);
+      line-height: 1.55;
+      color: var(--ink-soft);
+      margin-bottom: 48px; font-weight: 300;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 22px; border-radius: 999px;
+      font-size: 14px; font-weight: 500; letter-spacing: 0.01em;
+      transition: all 0.3s var(--ease);
+      border: 1px solid transparent;
+    }
+    .btn-primary { background: var(--ink); color: var(--bg); }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-ghost { border-color: var(--ink); color: var(--ink); }
+    .btn-ghost:hover { background: var(--ink); color: var(--bg); transform: translateY(-2px); }
+    .btn svg { transition: transform 0.3s var(--ease); }
+    .btn:hover svg { transform: translateX(3px); }
+
+    .hero-schema {
+      position: absolute; right: var(--pad-x); top: 40%;
+      width: 180px; height: 180px;
+      opacity: 0.55; pointer-events: none;
+    }
+    @media (max-width: 900px) { .hero-schema { display: none; } }
+    .hero-schema svg { width: 100%; height: 100%; }
+    .hero-schema .rot { transform-origin: center; animation: rot 40s linear infinite; }
+    @keyframes rot { to { transform: rotate(360deg); } }
+
+    /* About */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: clamp(32px, 6vw, 96px); align-items: start;
+    }
+    @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-text p {
+      font-size: clamp(16px, 1.3vw, 18px);
+      line-height: 1.65; color: var(--ink-soft);
+      margin-bottom: 20px;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-side {
+      border-left: 1px solid var(--line);
+      padding-left: clamp(20px, 3vw, 36px);
+    }
+    .about-side h4 {
+      font-family: var(--f-mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 12px;
+    }
+    .about-side .info-block { margin-bottom: 28px; }
+    .about-side .info-block:last-child { margin-bottom: 0; }
+    .about-side .info-value {
+      font-family: var(--f-display);
+      font-size: 22px; line-height: 1.3;
+    }
+
+    /* Projects */
+    .projects { display: grid; gap: 0; }
+    .project {
+      display: grid;
+      grid-template-columns: 80px 1fr 220px;
+      gap: clamp(16px, 3vw, 40px);
+      padding: 36px 0;
+      border-top: 1px solid var(--line);
+      transition: background 0.4s var(--ease);
+      cursor: pointer;
+    }
+    .project:last-child { border-bottom: 1px solid var(--line); }
+    .project:hover { background: rgba(184, 71, 31, 0.025); }
+    .project:hover .project-title { color: var(--accent); }
+    .project:hover .project-arrow { transform: translate(3px, -3px); color: var(--accent); }
+    @media (max-width: 780px) {
+      .project { grid-template-columns: 60px 1fr; }
+      .project-meta { grid-column: 1 / -1; margin-top: 8px; text-align: left; }
+    }
+    .project-num {
+      font-family: var(--f-mono); font-size: 12px;
+      color: var(--muted); padding-top: 6px;
+    }
+    .project-body h3.project-title {
+      font-family: var(--f-display);
+      font-size: clamp(24px, 2.8vw, 34px);
+      font-weight: 400; line-height: 1.1; letter-spacing: -0.01em;
+      margin-bottom: 10px;
+      transition: color 0.3s var(--ease);
+      display: inline-flex; align-items: baseline; gap: 14px;
+    }
+    .project-arrow {
+      font-size: 18px;
+      transition: transform 0.3s var(--ease), color 0.3s var(--ease);
+      color: var(--muted);
+    }
+    .project-desc {
+      color: var(--ink-soft);
+      font-size: 15px; line-height: 1.55;
+      max-width: 62ch; margin-bottom: 14px;
+    }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-family: var(--f-mono); font-size: 11px;
+      padding: 4px 10px;
+      border: 1px solid var(--line-strong); border-radius: 999px;
+      color: var(--ink-soft); background: var(--bg-panel);
+    }
+    .project-meta {
+      text-align: right;
+      font-family: var(--f-mono); font-size: 12px;
+      color: var(--muted); padding-top: 8px;
+    }
+    .project-meta .year {
+      display: block; font-size: 13px;
+      color: var(--ink); margin-bottom: 4px;
+    }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: ""; position: absolute;
+      left: 6px; top: 8px; bottom: 8px;
+      width: 1px; background: var(--line-strong);
+    }
+    .tl-item { position: relative; padding-bottom: 48px; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-item::before {
+      content: ""; position: absolute;
+      left: -28px; top: 10px;
+      width: 13px; height: 13px;
+      background: var(--bg);
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+    }
+    .tl-item.current::before {
+      background: var(--accent); border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(184, 71, 31, 0.15);
+    }
+    .tl-date {
+      font-family: var(--f-mono); font-size: 12px;
+      color: var(--muted); letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .tl-title {
+      font-family: var(--f-display);
+      font-size: 26px; font-weight: 400; line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .tl-org {
+      font-size: 14px; color: var(--accent);
+      font-weight: 500; margin-bottom: 10px;
+    }
+    .tl-desc {
+      color: var(--ink-soft);
+      font-size: 15px; line-height: 1.6;
+      max-width: 65ch;
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: clamp(20px, 3vw, 40px);
+    }
+    @media (max-width: 780px) { .skills-grid { grid-template-columns: 1fr; } }
+    .skill-col h4 {
+      font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 18px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--line);
+    }
+    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .skill-list li {
+      font-family: var(--f-display);
+      font-size: 20px; line-height: 1.3;
+      color: var(--ink-soft);
+      transition: color 0.25s var(--ease);
+    }
+    .skill-list li:hover { color: var(--accent); }
+
+    /* Certifications */
+    .certs { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); }
+    .certs-label {
+      font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 20px;
+    }
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .cert {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 18px;
+      border: 1px solid var(--line); border-radius: 4px;
+      background: var(--bg-panel); font-size: 14px;
+    }
+    .cert-icon {
+      font-family: var(--f-mono); font-size: 11px;
+      color: var(--accent); letter-spacing: 0.05em;
+    }
+
+    /* Contact */
+    .contact { padding-bottom: 80px; }
+    .contact-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: clamp(32px, 5vw, 64px);
+      position: relative; overflow: hidden;
+    }
+    .contact-card::before {
+      content: ""; position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .contact h2 { margin-bottom: 24px; }
+    .contact-lede {
+      max-width: 580px;
+      color: var(--ink-soft);
+      font-size: 17px; line-height: 1.6;
+      margin-bottom: 40px;
+    }
+    .contact-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 4px; overflow: hidden;
+    }
+    .contact-link {
+      display: flex; flex-direction: column; gap: 6px;
+      padding: 24px 28px;
+      background: var(--bg-panel);
+      transition: background 0.3s var(--ease);
+    }
+    .contact-link:hover { background: var(--bg); }
+    .contact-link .label {
+      font-family: var(--f-mono); font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .contact-link .value {
+      font-family: var(--f-display);
+      font-size: 20px; line-height: 1.2;
+      color: var(--ink);
+      transition: color 0.3s var(--ease);
+      word-break: break-word;
+    }
+    .contact-link:hover .value { color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 32px 0;
+      font-family: var(--f-mono); font-size: 12px;
+      color: var(--muted);
+    }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .brand-mark::after, .status-dot, .hero-schema .rot { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a href="#top" class="brand" aria-label="Home">
+        <span class="brand-mark"></span>
+        <span>THEJAS DIXIT · R&amp;A ENGINEER</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#toolkit">Toolkit</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <!-- Upload your CV PDF to the same repo folder; this link then resolves automatically -->
+      <a href="./ThejasDixitSathyanarayana_CV.pdf" class="nav-cta" target="_blank" rel="noopener">CV ↗</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="hero-meta reveal">
+          <span>§ 00 — Introduction</span>
+          <span class="status"><span class="status-dot"></span>Available from April 2026 · EU Blue Card holder</span>
+          <span>Straubing, DE · UTC+1</span>
+        </div>
+
+        <h1 id="hero-title" class="reveal">
+          Thejas Dixit,<br />
+          <span class="italic">simulating</span> robots<br />
+          before they move.
+        </h1>
+
+        <p class="hero-lede reveal reveal-delay-1">
+          Robotics &amp; Automation Engineer with an M.Sc. in Systems Engineering for Manufacturing
+          (OvGU Magdeburg) and hands-on experience in robot simulation, offline programming, and
+          virtual commissioning across KUKA, ABB, FANUC, Staubli, and Universal Robots. Most
+          recently at Strama-MPS, delivering 15+ simulation projects and onsite KUKA commissioning
+          to BMW manufacturing standards.
+        </p>
+
+        <div class="hero-actions reveal reveal-delay-2">
+          <a href="#work" class="btn btn-primary">
+            See selected work
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#contact" class="btn btn-ghost">Get in touch</a>
+        </div>
+      </div>
+
+      <div class="hero-schema" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" stroke="currentColor">
+          <g class="rot" stroke="#141414" stroke-width="0.6">
+            <circle cx="100" cy="100" r="90" />
+            <circle cx="100" cy="100" r="60" stroke-dasharray="3 3" />
+            <circle cx="100" cy="100" r="30" />
+            <line x1="100" y1="10" x2="100" y2="190" />
+            <line x1="10" y1="100" x2="190" y2="100" />
+          </g>
+          <circle cx="100" cy="100" r="4" fill="#B8471F" stroke="none" />
+        </svg>
+      </div>
+    </section>
+
+    <section id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <div class="section-label reveal">§ 01 · About</div>
+        <h2 id="about-title" class="reveal">
+          An engineer working at the seam where <em>hardware meets simulation</em>.
+        </h2>
+
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p>
+              I'm a Robotics and Automation engineer with a research-led, applied background in
+              robot simulation, offline programming (OLP), virtual commissioning, and mechanical
+              design. I enjoy owning a problem from CAD and cell layout all the way through
+              motion planning, collision checks, and onsite commissioning.
+            </p>
+            <p>
+              My graduate research at OvGU Magdeburg — in association with Volkswagen AG —
+              focused on PPR-based digital factory modelling and industrial bin-picking
+              optimisation. On the industrial side, I've spent the last year and a half at
+              Strama-MPS programming and commissioning KUKA cells for Body-in-White,
+              automotive, e-mobility, and medical-electronics lines to industrial standards.
+            </p>
+            <p>
+              I care about the unglamorous details — cycle time, reach, clearance, safe zones,
+              and the twenty small decisions that decide whether a robot cell works on day one
+              or week four. Outside of work I travel, cook, hike, read books
+              , watch animes to documentaries and ofcourse doomscroll Instagram.
+            </p>
+          </div>
+
+          <aside class="about-side reveal reveal-delay-1">
+            <div class="info-block">
+              <h4>Based in</h4>
+              <div class="info-value">Straubing, Germany</div>
+            </div>
+            <div class="info-block">
+              <h4>Focus</h4>
+              <div class="info-value">Robot Simulation · OLP · Virtual Commissioning</div>
+            </div>
+            <div class="info-block">
+              <h4>Currently</h4>
+              <div class="info-value">Available from April 2026 · EU Blue Card holder</div>
+            </div>
+            <div class="info-block">
+              <h4>Languages</h4>
+              <div class="info-value">English · Deutsch · हिन्दी · ಕನ್ನಡ</div>
+            </div>
+            <div class="info-block">
+              <h4>Open to</h4>
+              <div class="info-value">Full-time roles across the EU · Contract · Collaborations</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="section-label reveal">§ 02 · Selected Work</div>
+        <h2 id="work-title" class="reveal">
+          Projects that turned <em>PPR diagrams and CAD</em> into moving robot cells.
+        </h2>
+
+        <div class="projects">
+
+          <a href="https://github.com/Thejas12Dixit" target="_blank" rel="noopener" class="project reveal">
+            <div class="project-num">01 /</div>
+            <div class="project-body">
+              <h3 class="project-title">
+                KUKA KRL Reader
+                <span class="project-arrow">↗</span>
+              </h3>
+              <p class="project-desc">
+                A Python-based visualiser for KUKA Robot Language (KRL) programs — parses source,
+                surfaces motion commands and structure, and makes legacy programs easier to audit
+                and debug before commissioning. Built as a personal tool out of day-to-day pain
+                on the shop floor.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Python</span>
+                <span class="tag">KUKA KRL</span>
+                <span class="tag">Parser</span>
+                <span class="tag">Tooling</span>
+              </div>
+            </div>
+            <div class="project-meta">
+              <span class="year">2026</span>
+              <span>Personal · GitHub</span>
+            </div>
+          </a>
+
+          <a href="#" class="project reveal">
+            <div class="project-num">02 /</div>
+            <div class="project-body">
+              <h3 class="project-title">
+                Cycle-Time Optimisation for BMW-Standard Cells
+                <span class="project-arrow">↗</span>
+              </h3>
+              <p class="project-desc">
+                Simulation, motion planning, and offline programming across 15+ industrial
+                projects at Strama-MPS spanning Body-in-White, automotive, e-mobility, and
+                medical electronics. Work includes reach and collision studies, robot
+                safe-operation setup, and onsite commissioning of KUKA cells with KRL to BMW
+                manufacturing standards.
+              </p>
+              <div class="project-tags">
+                <span class="tag">KUKA KRL</span>
+                <span class="tag">Process Simulate</span>
+                <span class="tag">Virtual Commissioning</span>
+                <span class="tag">Body-in-White</span>
+                <span class="tag">BMW Standard</span>
+              </div>
+            </div>
+            <div class="project-meta">
+              <span class="year">2024 — 2026</span>
+              <span>Industry · Strama-MPS</span>
+            </div>
+          </a>
+
+          <a href="#" class="project reveal">
+            <div class="project-num">03 /</div>
+            <div class="project-body">
+              <h3 class="project-title">
+                Master Thesis — PPR Digital Factory for Bin Picking
+                <span class="project-arrow">↗</span>
+              </h3>
+              <p class="project-desc">
+                In association with Volkswagen AG, Wolfsburg: optimised industrial bin picking
+                through a Lean Simulation Methodology and Product–Process–Resource (PPR)
+                approach. Built the backend simulation in RoboDK and Python for collision
+                detection and reachability, plus a custom UI for 3D visualisation of
+                bin-picking data. Platform based on Universal Robots and CAD.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Universal Robots</span>
+                <span class="tag">RoboDK</span>
+                <span class="tag">Python</span>
+                <span class="tag">PPR Modelling</span>
+                <span class="tag">Lean Simulation</span>
+              </div>
+            </div>
+            <div class="project-meta">
+              <span class="year">2023</span>
+              <span>Thesis · Volkswagen AG</span>
+            </div>
+          </a>
+
+          <a href="#" class="project reveal">
+            <div class="project-num">04 /</div>
+            <div class="project-body">
+              <h3 class="project-title">
+                Industry 4.0 Cyber-Physical Control System
+                <span class="project-arrow">↗</span>
+              </h3>
+              <p class="project-desc">
+                Realisation of a model-based, Industry 4.0 control system using WAGO PLC
+                modules, IEC 61131 programming, OPC-UA, and AutomationML. The project
+                formalised the system through Asset Administration Shells (AAS) and
+                Model-Based Systems Engineering, creating a reusable cyber-physical
+                architecture across manufacturing stations.
+              </p>
+              <div class="project-tags">
+                <span class="tag">WAGO PLC</span>
+                <span class="tag">IEC 61131</span>
+                <span class="tag">OPC-UA</span>
+                <span class="tag">AutomationML</span>
+                <span class="tag">AAS</span>
+                <span class="tag">MBSE</span>
+              </div>
+            </div>
+            <div class="project-meta">
+              <span class="year">2022 — 2023</span>
+              <span>Research · OvGU</span>
+            </div>
+          </a>
+
+          <a href="#" class="project reveal">
+            <div class="project-num">05 /</div>
+            <div class="project-body">
+              <h3 class="project-title">
+                Zero-Gravity Airplane — VDI Requirements Engineering
+                <span class="project-arrow">↗</span>
+              </h3>
+              <p class="project-desc">
+                Requirements-engineering-based conceptual design for a zero-gravity research
+                aircraft, developed against German VDI standards. Captured stakeholder needs,
+                derived functional and non-functional requirements, and traced them through
+                a systems architecture using SysML and Enterprise Architect.
+              </p>
+              <div class="project-tags">
+                <span class="tag">SysML</span>
+                <span class="tag">VDI Standards</span>
+                <span class="tag">Enterprise Architect</span>
+                <span class="tag">MBSE</span>
+              </div>
+            </div>
+            <div class="project-meta">
+              <span class="year">2021 — 2022</span>
+              <span>Academic · OvGU</span>
+            </div>
+          </a>
+
+          <a href="#" class="project reveal">
+            <div class="project-num">06 /</div>
+            <div class="project-body">
+              <h3 class="project-title">
+                Collaborative Robot Operational Concepts (UR)
+                <span class="project-arrow">↗</span>
+              </h3>
+              <p class="project-desc">
+                Development of industrial operational concepts around Universal Robots cobots —
+                including gripper conceptualisation, robot motion planning, and safety-aware
+                workflows. Part of broader work on lean, human-adjacent manufacturing cells.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Universal Robots</span>
+                <span class="tag">Cobots</span>
+                <span class="tag">Motion Planning</span>
+                <span class="tag">Gripper Design</span>
+              </div>
+            </div>
+            <div class="project-meta">
+              <span class="year">2023</span>
+              <span>Research · OvGU</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" aria-labelledby="exp-title">
+      <div class="wrap">
+        <div class="section-label reveal">§ 03 · Experience &amp; Education</div>
+        <h2 id="exp-title" class="reveal">
+          Six years across <em>design</em>, <em>research</em>, and <em>industrial</em> robotics.
+        </h2>
+
+        <div class="timeline">
+
+          <div class="tl-item current reveal">
+            <div class="tl-date">October 2024 — March 2026</div>
+            <div class="tl-title">Robotics Simulation Engineer</div>
+            <div class="tl-org">Strama-MPS GmbH · Straubing, Germany</div>
+            <div class="tl-desc">
+              Robot motion planning, collision detection, offline programming, and safe-operation
+              setup across 15+ simulation projects. Onsite commissioning of KUKA cells with KRL
+              to BMW manufacturing standards. Sectors covered: Body-in-White, automotive,
+              e-mobility, and medical electronics.
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-date">October 2021 — February 2024</div>
+            <div class="tl-title">M.Sc. Systems Engineering for Manufacturing</div>
+            <div class="tl-org">Otto-von-Guericke University, Magdeburg · Grade 2.1</div>
+            <div class="tl-desc">
+              Focus on Model-Based Systems Engineering, factory automation, and industrial
+              robotics. Coursework spanning MBSE, PLM, control systems, simulation, and
+              Industry 4.0 architectures.
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-date">March 2023 — July 2023</div>
+            <div class="tl-title">Master Thesis — Bin-Picking Optimisation</div>
+            <div class="tl-org">Volkswagen AG · Wolfsburg</div>
+            <div class="tl-desc">
+              Thesis on optimising industrial bin picking through Lean Simulation Methodology
+              and a PPR (Product–Process–Resource) approach using Universal Robots, Python,
+              RoboDK, and CAD.
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-date">December 2022 — March 2023</div>
+            <div class="tl-title">Student Research Assistant</div>
+            <div class="tl-org">Otto-von-Guericke University · in association with Volkswagen AG</div>
+            <div class="tl-desc">
+              Research on bin-picking robot optimisation using KUKA robots, RoboDK, and Python
+              for robot simulation and data processing. Feeder work for the master-thesis
+              programme.
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-date">October 2022 — March 2023</div>
+            <div class="tl-title">Research Internship — Industry 4.0 Control Systems</div>
+            <div class="tl-org">Otto-von-Guericke University, Magdeburg</div>
+            <div class="tl-desc">
+              Realisation of an Industry 4.0 based control system using PLC programming
+              (IEC 61131) on WAGO modules, integrating OPC-UA concepts and AutomationML
+              for a cyber-physical cell.
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-date">August 2020 — January 2021</div>
+            <div class="tl-title">Junior Design Engineer</div>
+            <div class="tl-org">Envision Integrated Services Pvt. Ltd. · India</div>
+            <div class="tl-desc">
+              Engineering design projects using CATIA V5, Autodesk Inventor, Navisworks, and
+              AutoCAD. Digital factory conversion and CATIA surfacing for automotive clients.
+            </div>
+          </div>
+
+          <div class="tl-item reveal">
+            <div class="tl-date">July 2015 — July 2019</div>
+            <div class="tl-title">B.E. Mechanical Engineering</div>
+            <div class="tl-org">Visvesvaraya Technological University, Belagavi · Grade 2.1</div>
+            <div class="tl-desc">
+              Focus on mechanical design, analysis, mechatronics, and automation. Bachelor
+              thesis on the generation of electricity and pyrolysis oil from plastic waste.
+              Early internships at Gloinnt Solutions, Rexroth Bosch Lab (DSU), and BEML.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="toolkit" aria-labelledby="tk-title">
+      <div class="wrap">
+        <div class="section-label reveal">§ 04 · Toolkit</div>
+        <h2 id="tk-title" class="reveal">
+          Hardware, software, and the <em>bridges</em> between them.
+        </h2>
+
+        <div class="skills-grid">
+          <div class="skill-col reveal">
+            <h4>Robotics &amp; Simulation</h4>
+            <ul class="skill-list">
+              <li>KUKA · ABB · FANUC · Staubli · UR</li>
+              <li>KUKA WorkVisual · Process Simulate</li>
+              <li>RoboDK · RobotStudio · RoboGuide</li>
+              <li>Staubli Robotics Suite</li>
+              <li>ROS2</li>
+              <li>Virtual Commissioning · Digital Twin</li>
+            </ul>
+          </div>
+          <div class="skill-col reveal reveal-delay-1">
+            <h4>Programming &amp; Automation</h4>
+            <ul class="skill-list">
+              <li>Python</li>
+              <li>KUKA KRL</li>
+              <li>PLC IEC 61131 · Structured Text</li>
+              <li>WAGO · e-Cockpit</li>
+              <li>Siemens S7 · TIA Portal</li>
+              <li>OPC-UA · AutomationML</li>
+            </ul>
+          </div>
+          <div class="skill-col reveal reveal-delay-2">
+            <h4>CAD &amp; Systems Engineering</h4>
+            <ul class="skill-list">
+              <li>SolidWorks · CATIA V5</li>
+              <li>Autodesk Inventor · Creo · Solid Edge</li>
+              <li>AutoCAD</li>
+              <li>UML · SysML · MBSE</li>
+              <li>AAS · Enterprise Architect</li>
+              <li>PTC Windchill (PLM)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="certs reveal">
+          <div class="certs-label">Certifications</div>
+          <div class="cert-grid">
+            <div class="cert"><span class="cert-icon">01</span><span>KUKA Robot Programming I (Basic)</span></div>
+            <div class="cert"><span class="cert-icon">02</span><span>KUKA Robot Programming II (Advanced)</span></div>
+            <div class="cert"><span class="cert-icon">03</span><span>KUKA Robot Safe Operation</span></div>
+            <div class="cert"><span class="cert-icon">04</span><span>Universal Robots — e Series Core Track</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact" aria-labelledby="ct-title">
+      <div class="wrap">
+        <div class="section-label reveal">§ 05 · Contact</div>
+        <div class="contact-card reveal">
+          <h2 id="ct-title">
+            Got a cell that needs <em>planning, programming, or commissioning</em>?
+          </h2>
+          <p class="contact-lede">
+            Available from April 2026 and open to robotics simulation, automation, and
+            systems-engineering roles across the EU. The fastest way to reach me is email
+            or LinkedIn.
+          </p>
+          <div class="contact-links">
+            <a class="contact-link" href="mailto:thejasds21@gmail.com">
+              <span class="label">Email</span>
+              <span class="value">thejasds21@gmail.com</span>
+            </a>
+            <a class="contact-link" href="tel:+4915781288410">
+              <span class="label">Phone</span>
+              <span class="value">+49 157 8128 8410</span>
+            </a>
+            <a class="contact-link" href="https://www.linkedin.com/in/thejas-dixit-s/" target="_blank" rel="noopener">
+              <span class="label">LinkedIn</span>
+              <span class="value">in/thejas-dixit-s</span>
+            </a>
+            <a class="contact-link" href="https://github.com/Thejas12Dixit" target="_blank" rel="noopener">
+              <span class="label">GitHub</span>
+              <span class="value">@Thejas12Dixit</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© 2026 Thejas Dixit Sathyanarayana · Straubing, Germany</span>
+      <span>Last updated · April 2026</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 12) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(el => io.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('in'));
+    }
+  </script>
+</body>
+</html>
