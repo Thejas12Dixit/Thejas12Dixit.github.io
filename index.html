@@ -10,7 +10,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -22,7 +22,7 @@
       --line: #D8D3C7;
       --line-strong: #B8B1A0;
       --accent: #B8471F;
-      --f-display: "Instrument Serif", "Times New Roman", serif;
+      --f-display: "Fraunces", "Georgia", "Iowan Old Style", serif;
       --f-body: "Work Sans", system-ui, sans-serif;
       --f-mono: "JetBrains Mono", ui-monospace, monospace;
       --maxw: 1180px;
@@ -355,19 +355,112 @@
     }
     .cert-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 14px;
     }
     .cert {
-      display: flex; align-items: center; gap: 12px;
+      display: flex; align-items: center; gap: 14px;
       padding: 14px 18px;
       border: 1px solid var(--line); border-radius: 4px;
       background: var(--bg-panel); font-size: 14px;
+      cursor: pointer;
+      font-family: inherit; color: inherit;
+      text-align: left; width: 100%;
+      transition: background 0.25s var(--ease),
+                  border-color 0.25s var(--ease),
+                  transform 0.25s var(--ease);
     }
+    .cert:hover {
+      background: var(--bg);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .cert:hover .cert-zoom { opacity: 1; color: var(--accent); }
     .cert-icon {
       font-family: var(--f-mono); font-size: 11px;
       color: var(--accent); letter-spacing: 0.05em;
+      flex-shrink: 0;
     }
+    .cert-name { flex: 1; line-height: 1.35; }
+    .cert-zoom {
+      font-family: var(--f-mono); font-size: 16px;
+      color: var(--muted); opacity: 0.6;
+      transition: opacity 0.25s var(--ease), color 0.25s var(--ease);
+      flex-shrink: 0;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed; inset: 0;
+      background: rgba(20, 20, 20, 0.88);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(16px, 4vw, 48px);
+      z-index: 100;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s var(--ease), visibility 0.3s var(--ease);
+    }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox-inner {
+      position: relative;
+      max-width: 1100px; width: 100%;
+      max-height: 90vh;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 16px;
+      transform: scale(0.96);
+      transition: transform 0.3s var(--ease);
+    }
+    .lightbox.open .lightbox-inner { transform: scale(1); }
+    .lightbox-img {
+      max-width: 100%; max-height: 78vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 24px 60px -12px rgba(0,0,0,0.5);
+      background: var(--bg);
+    }
+    .lightbox-missing {
+      padding: 60px 48px;
+      background: var(--bg-panel);
+      border: 1px dashed var(--line-strong);
+      border-radius: 4px;
+      text-align: center; max-width: 560px;
+      color: var(--ink-soft);
+      font-family: var(--f-body); font-size: 15px; line-height: 1.6;
+    }
+    .lightbox-missing code {
+      font-family: var(--f-mono); font-size: 13px;
+      background: var(--bg); padding: 2px 8px;
+      border-radius: 3px; border: 1px solid var(--line);
+      color: var(--accent);
+      word-break: break-all;
+    }
+    .lightbox-caption {
+      font-family: var(--f-mono); font-size: 12px;
+      color: rgba(245, 241, 234, 0.85);
+      letter-spacing: 0.04em;
+    }
+    .lightbox-close {
+      position: absolute; top: -8px; right: -8px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 20px; font-weight: 300;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+    .lightbox-close:hover {
+      background: var(--accent); color: var(--bg);
+      transform: rotate(90deg);
+      border-color: var(--accent);
+    }
+    @media (max-width: 600px) {
+      .lightbox-close { top: 8px; right: 8px; }
+    }
+    body.lb-open { overflow: hidden; }
 
     /* Contact */
     .contact { padding-bottom: 80px; }
@@ -867,12 +960,28 @@
         </div>
 
         <div class="certs reveal">
-          <div class="certs-label">Certifications</div>
+          <div class="certs-label">Certifications · Click to view</div>
           <div class="cert-grid">
-            <div class="cert"><span class="cert-icon">01</span><span>KUKA Robot Programming I (Basic)</span></div>
-            <div class="cert"><span class="cert-icon">02</span><span>KUKA Robot Programming II (Advanced)</span></div>
-            <div class="cert"><span class="cert-icon">03</span><span>KUKA Robot Safe Operation</span></div>
-            <div class="cert"><span class="cert-icon">04</span><span>Universal Robots — e Series Core Track</span></div>
+            <button class="cert" type="button" data-img="./certificates/kuka-prog-1.jpg" data-title="KUKA Robot Programming I (Basic)">
+              <span class="cert-icon">01</span>
+              <span class="cert-name">KUKA Robot Programming I (Basic)</span>
+              <span class="cert-zoom" aria-hidden="true">⤢</span>
+            </button>
+            <button class="cert" type="button" data-img="./certificates/kuka-prog-2.jpg" data-title="KUKA Robot Programming II (Advanced)">
+              <span class="cert-icon">02</span>
+              <span class="cert-name">KUKA Robot Programming II (Advanced)</span>
+              <span class="cert-zoom" aria-hidden="true">⤢</span>
+            </button>
+            <button class="cert" type="button" data-img="./certificates/kuka-safe-op.jpg" data-title="KUKA Robot Safe Operation">
+              <span class="cert-icon">03</span>
+              <span class="cert-name">KUKA Robot Safe Operation</span>
+              <span class="cert-zoom" aria-hidden="true">⤢</span>
+            </button>
+            <button class="cert" type="button" data-img="./certificates/ur-core.jpg" data-title="Universal Robots — e Series Core Track">
+              <span class="cert-icon">04</span>
+              <span class="cert-name">Universal Robots — e Series Core Track</span>
+              <span class="cert-zoom" aria-hidden="true">⤢</span>
+            </button>
           </div>
         </div>
       </div>
@@ -913,6 +1022,24 @@
     </section>
   </main>
 
+  <!-- Lightbox for certificate images -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Certificate preview">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close preview">×</button>
+      <img class="lightbox-img" id="lightbox-img" alt="" />
+      <div class="lightbox-missing" id="lightbox-missing" hidden>
+        <div style="font-family: var(--f-display); font-size: 22px; color: var(--ink); margin-bottom: 12px;">
+          Certificate image not yet uploaded
+        </div>
+        <p style="margin-bottom: 10px;">
+          Upload the image to your repo at the path below (case-sensitive):
+        </p>
+        <code id="lightbox-path">./certificates/filename.jpg</code>
+      </div>
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
   <footer>
     <div class="wrap footer-inner">
       <span>© 2026 Thejas Dixit Sathyanarayana · Straubing, Germany</span>
@@ -943,6 +1070,68 @@
     } else {
       revealEls.forEach(el => el.classList.add('in'));
     }
+
+    // ---------- Certificate Lightbox ----------
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxMissing = document.getElementById('lightbox-missing');
+    const lightboxPath = document.getElementById('lightbox-path');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxClose = document.getElementById('lightbox-close');
+    let lastFocused = null;
+
+    function openLightbox(src, title) {
+      lastFocused = document.activeElement;
+      lightboxCaption.textContent = title || '';
+      lightboxImg.alt = title || '';
+
+      // Reset both states
+      lightboxImg.hidden = false;
+      lightboxImg.style.display = '';
+      lightboxMissing.hidden = true;
+
+      // Try to load image; if it fails, show a friendly fallback
+      lightboxImg.onload = () => {
+        lightboxImg.hidden = false;
+        lightboxMissing.hidden = true;
+      };
+      lightboxImg.onerror = () => {
+        lightboxImg.hidden = true;
+        lightboxMissing.hidden = false;
+        lightboxPath.textContent = src;
+      };
+      lightboxImg.src = src;
+
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('lb-open');
+      setTimeout(() => lightboxClose.focus(), 50);
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('lb-open');
+      lightboxImg.src = '';
+      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    }
+
+    document.querySelectorAll('.cert').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const src = btn.getAttribute('data-img');
+        const title = btn.getAttribute('data-title');
+        if (src) openLightbox(src, title);
+      });
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      // Close on backdrop click (not when clicking the inner content)
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+    });
   </script>
 </body>
 </html>
